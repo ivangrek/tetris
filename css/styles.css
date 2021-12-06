@@ -1,0 +1,118 @@
+html, body {
+    user-select: none;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-color: #f3f0f0;
+}
+
+.board {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 4em;
+}
+
+.row {
+    display: flex;
+}
+
+.field {
+    display: flex;
+    width: 20em;
+    height: 40em;
+    flex-wrap: wrap;
+    border: 1px solid #888;
+    position: relative;
+    margin-right: 2em;
+    background-color: #f0f0f0;
+}
+
+.next {
+    display: flex;
+    width: 8em;
+    height: 8em;
+    flex-wrap: wrap;
+    border: 1px solid #888;
+    position: relative;
+    background-color: #f0f0f0;
+}
+
+.cell {
+    width: 2em;
+    height: 2em;
+    box-sizing: border-box;
+
+    /**/
+    font-family: monospace;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #f0f0f0;
+
+    /* border-radius: 15%; */
+    background-color: #fff;
+
+}
+
+.cell.cell-on {
+    background-color: #555;
+    background-image: linear-gradient(315deg, #55555533 0%, #555555ff 100%);
+}
+
+.cell.cell-on-0 {
+    background-color: #555;
+}
+
+/* red  */
+.cell.cell-on-1 {
+    background-color: #ee1c25;
+    background: linear-gradient(135deg, #ee1c2580 0%, #ee1c25ff 100%);
+    box-shadow: inset 0 0 4px #ee1c25;
+}
+
+/* orange  */
+.cell.cell-on-2 {
+    background-color: #f79423;
+    background: linear-gradient(135deg, #f7942380 0%, #f79423ff 100%);
+}
+
+/* yellow  */
+.cell.cell-on-3 {
+    background-color: #fef234;
+    background: linear-gradient(135deg, #fef23480 0%, #fef234ff 100%);
+}
+
+/* green  */
+.cell.cell-on-4 {
+    background-color: #92c445;
+    background: linear-gradient(135deg, #92c44580 0%, #92c445ff 100%);
+}
+
+/* blue  */
+.cell.cell-on-5 {
+    background-color: #64d7fd;
+    background: linear-gradient(135deg, #64d7fd80 0%, #64d7fdff 100%);
+}
+
+/* indigo  */
+.cell.cell-on-6 {
+    background-color: #1164c2;
+    background: linear-gradient(135deg, #1164c280 0%, #1164c2ff 100%);
+}
+
+/* purple  */
+.cell.cell-on-7 {
+    background-color: #6e57bf;
+    background: linear-gradient(135deg, #6e57bf80 0%, #6e57bfff 100%);
+}
+
+.panel {
+    margin-top: 4em;
+    font-family: monospace;
+}
