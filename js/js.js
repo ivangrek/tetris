@@ -62,6 +62,11 @@
     const LinesPerLevel = 10;
     const MaxLevel = 20;
 
+    const PointsForOneLine = 100;
+    const PointsForTwoLines = 200;
+    const PointsForThreeLines = 500;
+    const PointsForFourLines = 1000;
+
     let clearLine = 19;
 
     //------------------------------------
@@ -163,24 +168,72 @@
                         figure.y--;
 
                         putFigure();
-                        removeLines();
-                        nextFigure();
 
-                        let newGameInterval = Math.floor(BaseGameInterval / (1 + level / 5));
+                        score += 50;
 
-                        if(newGameInterval < BaseGameInterval) {
-                            gameTimer = TimerContext.create(newGameInterval)
+                        this.fullLines = getFullLines();
+
+                        if(this.fullLines.length > 0) {
+                            this.lineX = 0;
+
+                            state = State.Line;
+                        } else {
+                            nextFigure();
                         }
-
-                        scoreObject.set(score);
-                        linesObject.set(lines);
-                        levelObject.set(level);
                     }
                 }
 
                 break;
 
             case State.Line:
+                if(this.lineX === 10) {
+                    state = State.Play;
+
+                    nextFigure();
+
+                    glass = glass.filter((line, index) => !this.fullLines.some(x => x === index));
+
+                    let count = this.fullLines.length;
+
+                    for (let i = 0; i < count; ++i) {
+                        glass.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                    }
+
+                    lines += count;
+
+                    switch(count)
+                    {
+                        case 1:
+                            score += PointsForOneLine;
+                            break;
+                        case 2:
+                            score += PointsForTwoLines;
+                            break;
+                        case 3:
+                            score += PointsForThreeLines;
+                            break;
+                        case 4:
+                            score += PointsForFourLines;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    let newLevel = Math.min(MaxLevel, Math.floor(lines / LinesPerLevel));
+
+                    if(level !== newLevel) {
+                        level = newLevel;
+                        gameTimer = TimerContext.create(Math.floor(BaseGameInterval / (1 + level / 5)));
+                    }
+
+                } else {
+                    for (const line of this.fullLines) {
+                        glass[line][this.lineX] = 0;
+                    }
+
+                    this.lineX++;
+                }
+
                 break;
 
             case State.Lose:
@@ -192,36 +245,45 @@
         }
 
         stateObject.set(state);
+        scoreObject.set(score);
+        linesObject.set(lines);
+        levelObject.set(level);
     }
 
     function render() {
-        //nextObject.draw();
-
         stateObject.draw();
         scoreObject.draw();
         linesObject.draw();
         levelObject.draw();
 
-        if(state === State.Clear) {
-            fieldContext.clear();
+        switch(state) {
+            case State.Idle:
+                break;
 
-            drawGlass();
+            case State.Clear:
+                fieldContext.clear();
 
-            return;
-        }
+                drawGlass();
 
-        if(state === State.Play) {
-            fieldContext.clear();
+                break;
 
-            drawFigure();
-            nextObject.draw();
-            drawGlass();
+            case State.Play:
+                fieldContext.clear();
 
-            return;
-        }
+                drawFigure();
+                nextObject.draw();
+                drawGlass();
 
-        if(state === State.Lose) {
-            return;
+                break;
+
+            case State.Line:
+                fieldContext.clear();
+                drawGlass();
+
+                break;
+
+            case State.Lose:
+                break;
         }
     }
 
@@ -984,8 +1046,6 @@
                 }
             }
         }
-
-        score += 50;
     }
 
     function hasCollisions(figure) {
@@ -1008,37 +1068,10 @@
         return false;
     }
 
-    function removeLines() {
-        glass = glass.filter(x => !x.every(y => y === 1));
-
-        let count = 20 - glass.length;
-
-        for (let i = 0; i < count; ++i) {
-            glass.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        }
-
-        lines += count;
-
-        switch(count)
-        {
-            case 1:
-                score += 100;
-                break;
-            case 2:
-                score += 200;
-                break;
-            case 3:
-                score += 500;
-                break;
-            case 4:
-                score += 1000;
-                break;
-            default:
-                break;
-        }
-
-        if(level < MaxLevel) {
-            level = Math.floor(lines / LinesPerLevel);
-        }
+    function getFullLines() {
+        return glass
+            .map((line, index) => ({ full: line.every(element => element === 1), index: index }))
+            .filter(x => x.full)
+            .map(x => x.index);
     }
 })();
