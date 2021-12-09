@@ -112,6 +112,12 @@
                     newGame();
 
                     state = State.Play;
+
+                    var startSound = new  Audio("assets/start.mp3");
+
+                    startSound.volume = 0.2;
+
+                    startSound.play();
                 } else {
                     if(clearLine >= 0) {
                         glass[clearLine] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
@@ -129,6 +135,12 @@
 
                 if(hasCollisions(figure) && figure.y < 0) {
                     state = State.Lose;
+
+                    var loseSound = new  Audio("assets/gameover.mp3");
+
+                    loseSound.volume = 0.2;
+
+                    loseSound.play();
 
                     return;
                 }
@@ -158,6 +170,12 @@
 
                     if(hasCollisions(figure)) {
                         figure.rotate(Rotation.Left);
+                    } else {
+                        var rotateSound = new  Audio("assets/rotate.mp3");
+
+                        rotateSound.volume = 0.2;
+
+                        rotateSound.play();
                     }
                 }
 
@@ -169,6 +187,12 @@
 
                         putFigure();
 
+                        var fallSound = new  Audio("assets/drop.mp3");
+
+                        fallSound.volume = 0.2;
+
+                        fallSound.play();
+
                         score += 50;
 
                         this.fullLines = getFullLines();
@@ -177,6 +201,12 @@
                             this.lineX = 0;
 
                             state = State.Line;
+
+                            var lineSound = new  Audio("assets/line.mp3");
+
+                            lineSound.volume = 0.2;
+
+                            lineSound.play();
                         } else {
                             nextFigure();
                         }
