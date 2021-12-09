@@ -23,19 +23,19 @@ html, body {
 
 .field {
     display: flex;
-    width: 20em;
-    height: 40em;
+    width: 40vmin;
+    height: 80vmin;
     flex-wrap: wrap;
     border: 1px solid #888;
     position: relative;
-    margin-right: 2em;
+    margin-right: 4vmin;
     background-color: #f0f0f0;
 }
 
 .next {
     display: flex;
-    width: 8em;
-    height: 8em;
+    width: 16vmin;
+    height: 16vmin;
     flex-wrap: wrap;
     border: 1px solid #888;
     position: relative;
@@ -43,8 +43,8 @@ html, body {
 }
 
 .cell {
-    width: 2em;
-    height: 2em;
+    width: 4vmin;
+    height: 4vmin;
     box-sizing: border-box;
 
     /**/
@@ -122,13 +122,13 @@ html, body {
 .cell.cell-on-6::before,
 .cell.cell-on-7::before {
     content: "";
-    width: calc(2em - 1px);
-    height: calc(2em - 1px);
+    width: calc(4vmin - 1px);
+    height: calc(4vmin - 1px);
     border: 2px solid #555;
     box-sizing: border-box;
 }
 
 .panel {
-    margin-top: 4em;
+    margin-top: 8vmin;
     font-family: monospace;
 }

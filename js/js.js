@@ -67,6 +67,12 @@
     const PointsForThreeLines = 500;
     const PointsForFourLines = 1000;
 
+    const StartSound = new  Audio("assets/start.mp3");
+    const EndSound = new  Audio("assets/gameover.mp3");
+    const RotateSound = new  Audio("assets/rotate.mp3");
+    const FallSound = new  Audio("assets/drop.mp3");
+    const LineSound = new  Audio("assets/line.mp3");
+
     let clearLine = 19;
 
     //------------------------------------
@@ -101,6 +107,12 @@
             case State.Idle:
                 if(InputContext.start) {
                     state = State.Clear;
+
+                    EndSound.pause();
+                    EndSound.currentTime = 0;
+
+                    StartSound.volume = 0.2;
+                    StartSound.play();
                 }
 
                 break;
@@ -112,12 +124,6 @@
                     newGame();
 
                     state = State.Play;
-
-                    var startSound = new  Audio("assets/start.mp3");
-
-                    startSound.volume = 0.2;
-
-                    startSound.play();
                 } else {
                     if(clearLine >= 0) {
                         glass[clearLine] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
@@ -136,11 +142,8 @@
                 if(hasCollisions(figure) && figure.y < 0) {
                     state = State.Lose;
 
-                    var loseSound = new  Audio("assets/gameover.mp3");
-
-                    loseSound.volume = 0.2;
-
-                    loseSound.play();
+                    EndSound.volume = 0.2;
+                    EndSound.play();
 
                     return;
                 }
@@ -171,11 +174,8 @@
                     if(hasCollisions(figure)) {
                         figure.rotate(Rotation.Left);
                     } else {
-                        var rotateSound = new  Audio("assets/rotate.mp3");
-
-                        rotateSound.volume = 0.2;
-
-                        rotateSound.play();
+                        RotateSound.volume = 0.2;
+                        RotateSound.play();
                     }
                 }
 
@@ -187,11 +187,11 @@
 
                         putFigure();
 
-                        var fallSound = new  Audio("assets/drop.mp3");
+                        FallSound.pause();
+                        FallSound.currentTime = 0;
 
-                        fallSound.volume = 0.2;
-
-                        fallSound.play();
+                        FallSound.volume = 0.2;
+                        FallSound.play();
 
                         score += 50;
 
@@ -202,11 +202,8 @@
 
                             state = State.Line;
 
-                            var lineSound = new  Audio("assets/line.mp3");
-
-                            lineSound.volume = 0.2;
-
-                            lineSound.play();
+                            LineSound.volume = 0.2;
+                            LineSound.play();
                         } else {
                             nextFigure();
                         }
@@ -269,6 +266,12 @@
             case State.Lose:
                 if(InputContext.start) {
                     state = State.Clear;
+
+                    EndSound.pause();
+                    EndSound.currentTime = 0;
+
+                    StartSound.volume = 0.2;
+                    StartSound.play();
                 }
 
                 break;
@@ -561,6 +564,10 @@
 
             set: function(value) {
                 next = value;
+            },
+
+            clear: function() {
+                score = 0;
             }
         };
     }
@@ -592,6 +599,10 @@
 
             set: function(value) {
                 next = value;
+            },
+
+            clear: function() {
+                lines = 0;
             }
         };
     }
@@ -623,6 +634,10 @@
 
             set: function(value) {
                 next = value;
+            },
+
+            clear: function() {
+                level = 0;
             }
         };
     }
@@ -1039,11 +1054,6 @@
         fieldObject = createFieldObject();
         nextObject = createNextObject();
 
-        stateObject = createStateObject();
-        scoreObject = createScoreObject();
-        linesObject = createLinesObject();
-        levelObject = createLevelObject();
-
         const typeNext = randomType();
 
         figureNext = createFigure(typeNext, 3, -2);
@@ -1055,6 +1065,10 @@
         level = 0;
 
         gameTimer = TimerContext.create(BaseGameInterval);
+
+        scoreObject.clear();
+        linesObject.clear();
+        levelObject.clear();
     }
 
     function nextFigure() {
