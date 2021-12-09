@@ -72,44 +72,60 @@ html, body {
 
 /* red  */
 .cell.cell-on-1 {
-    background-color: #ee1c25;
-    background: linear-gradient(135deg, #ee1c2580 0%, #ee1c25ff 100%);
+    background-color: #d1151d;
+    background: linear-gradient(135deg, #d1151d80 0%, #d1151dff 100%);
 }
 
 /* orange  */
 .cell.cell-on-2 {
-    background-color: #f79423;
-    background: linear-gradient(135deg, #f7942380 0%, #f79423ff 100%);
+    background-color: #ef691c;
+    background: linear-gradient(135deg, #ef691c80 0%, #ef691cff 100%);
 }
 
 /* yellow  */
 .cell.cell-on-3 {
-    background-color: #fef234;
-    background: linear-gradient(135deg, #fef23480 0%, #fef234ff 100%);
+    background-color: #f4ba29;
+    background: linear-gradient(135deg, #f4ba2980 0%, #f4ba29ff 100%);
 }
 
 /* green  */
 .cell.cell-on-4 {
-    background-color: #92c445;
-    background: linear-gradient(135deg, #92c44580 0%, #92c445ff 100%);
+    background-color: #66b520;
+    background: linear-gradient(135deg, #66b52080 0%, #66b520ff 100%);
 }
+
+
 
 /* blue  */
 .cell.cell-on-5 {
-    background-color: #64d7fd;
-    background: linear-gradient(135deg, #64d7fd80 0%, #64d7fdff 100%);
+    background-color: #379adc;
+    background: linear-gradient(135deg, #379adc80 0%, #379adcff 100%);
 }
 
 /* indigo  */
 .cell.cell-on-6 {
-    background-color: #1164c2;
-    background: linear-gradient(135deg, #1164c280 0%, #1164c2ff 100%);
+    background-color: #1c4fb8;
+    background: linear-gradient(135deg, #1c4fb880 0%, #1c4fb8ff 100%);
 }
 
 /* purple  */
 .cell.cell-on-7 {
-    background-color: #6e57bf;
-    background: linear-gradient(135deg, #6e57bf80 0%, #6e57bfff 100%);
+    background-color: #822285;
+    background: linear-gradient(135deg, #82228580 0%, #822285ff 100%);
+}
+
+.cell.cell-on-1::before,
+.cell.cell-on-2::before,
+.cell.cell-on-3::before,
+.cell.cell-on-4::before,
+.cell.cell-on-5::before,
+.cell.cell-on-6::before,
+.cell.cell-on-7::before {
+    content: "";
+    width: calc(2em - 1px);
+    height: calc(2em - 1px);
+    border: 2px solid #555;
+    box-sizing: border-box;
 }
 
 .panel {
