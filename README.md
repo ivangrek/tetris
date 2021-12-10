@@ -2,4 +2,4 @@
 
 Simple tetris game.
 
-https://ivangrek.github.io/tetris/
+https://ivangrek.github.io/tetris
