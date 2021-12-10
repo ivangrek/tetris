@@ -94,8 +94,6 @@ html, body {
     background: linear-gradient(135deg, #66b52080 0%, #66b520ff 100%);
 }
 
-
-
 /* blue  */
 .cell.cell-on-5 {
     background-color: #379adc;
@@ -125,6 +123,20 @@ html, body {
     width: calc(4vmin - 1px);
     height: calc(4vmin - 1px);
     border: 2px solid #555;
+    box-sizing: border-box;
+}
+
+.cell.cell-ghost-1::before,
+.cell.cell-ghost-2::before,
+.cell.cell-ghost-3::before,
+.cell.cell-ghost-4::before,
+.cell.cell-ghost-5::before,
+.cell.cell-ghost-6::before,
+.cell.cell-ghost-7::before {
+    content: "";
+    width: calc(4vmin - 1px);
+    height: calc(4vmin - 1px);
+    border: 2px dashed #555;
     box-sizing: border-box;
 }
 

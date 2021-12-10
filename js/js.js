@@ -30,6 +30,7 @@
     let state = State.Idle;
     let figure = {};
     let figureNext = {};
+    let ghostFigure = {};
 
     let glass = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -210,6 +211,8 @@
                     }
                 }
 
+                ghostFigure = createGhostFigure(figure);
+
                 break;
 
             case State.Line:
@@ -303,7 +306,9 @@
             case State.Play:
                 fieldContext.clear();
 
-                drawFigure();
+                drawFigure(ghostFigure, true);
+                drawFigure(figure, false);
+
                 nextObject.draw();
                 drawGlass();
 
@@ -406,8 +411,6 @@
 
         function clear() {
             for (let $cell of $cells) {
-                $cell.classList.remove("cell-on");
-
                 for(let color = 0; color < 8; ++color) {
                     $cell.classList.remove(`cell-on-${color}`);
                 }
@@ -651,27 +654,24 @@
         return {
             clear: function() {
                 for (let $cell of $cells) {
-                    $cell.classList.remove("cell-on");
-                    $cell.classList.remove("cell-on-0");
-                    $cell.classList.remove("cell-on-1");
-                    $cell.classList.remove("cell-on-2");
-                    $cell.classList.remove("cell-on-3");
-                    $cell.classList.remove("cell-on-4");
-                    $cell.classList.remove("cell-on-5");
-                    $cell.classList.remove("cell-on-6");
-                    $cell.classList.remove("cell-on-7");
+                    for(let color = 0; color < 8; ++color) {
+                        $cell.classList.remove(`cell-on-${color}`);
+                        $cell.classList.remove(`cell-ghost-${color}`);
+                    }
                 }
             },
 
-            drawPoint: function(x, y, color) {
+            drawPoint: function(x, y, color, isGhost) {
                 const index = y * width + x;
                 const $cell = $cells[index];
 
                 if($cell) {
-                    if(color) {
-                        $cell.classList.add(`cell-on-${color}`);
+                    if(isGhost) {
+                        $cell.classList.remove(`cell-on-${color}`);
+                        $cell.classList.add(`cell-ghost-${color}`);
                     } else {
-                        $cell.classList.add("cell-on");
+                        $cell.classList.remove(`cell-ghost-${color}`);
+                        $cell.classList.add(`cell-on-${color}`);
                     }
                 }
             }
@@ -1028,13 +1028,24 @@
         }
     }
 
-    function drawFigure() {
-        fieldContext.clear();
+    function createGhostFigure(figure) {
+        const ghostFigure = Object.assign({}, figure);
 
+        while(!hasCollisions(ghostFigure))
+        {
+            ghostFigure.y++;
+        }
+
+        ghostFigure.y--;
+
+        return ghostFigure;
+    }
+
+    function drawFigure(figure, isGhost) {
         for(let y = 0; y < 4; ++y) {
             for(let x = 0; x < 4; ++x) {
                 if(figure.points[y][x] === 1) {
-                    fieldContext.drawPoint(x + figure.x, y + figure.y, figure.color);
+                    fieldContext.drawPoint(x + figure.x, y + figure.y, figure.color, isGhost);
                 }
             }
         }
@@ -1044,7 +1055,7 @@
         for(let y = 0; y < 20; ++y) {
             for(let x = 0; x < 10; ++x) {
                 if(glass[y][x] === 1) {
-                    fieldContext.drawPoint(x, y);
+                    fieldContext.drawPoint(x, y, 0);
                 }
             }
         }
@@ -1059,6 +1070,8 @@
         figureNext = createFigure(typeNext, 3, -2);
 
         nextFigure();
+
+        ghostFigure = createGhostFigure(figure);
 
         score = 0;
         lines = 0;
