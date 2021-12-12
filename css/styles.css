@@ -26,7 +26,7 @@ html, body {
     width: 40vmin;
     height: 80vmin;
     flex-wrap: wrap;
-    border: 1px solid #888;
+    border: 2px solid #888;
     position: relative;
     margin-right: 4vmin;
     background-color: #f0f0f0;
@@ -37,7 +37,7 @@ html, body {
     width: 16vmin;
     height: 16vmin;
     flex-wrap: wrap;
-    border: 1px solid #888;
+    border: 2px solid #888;
     position: relative;
     background-color: #f0f0f0;
 }
@@ -46,70 +46,53 @@ html, body {
     width: 4vmin;
     height: 4vmin;
     box-sizing: border-box;
-
-    /**/
     font-family: monospace;
     font-size: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid #f0f0f0;
-
-    /* border-radius: 15%; */
     background-color: #fff;
 
 }
 
-.cell.cell-on {
-    background-color: #555;
-    background-image: linear-gradient(315deg, #55555533 0%, #555555ff 100%);
-}
-
 .cell.cell-on-0 {
     background-color: #555;
-    background-image: linear-gradient(315deg, #55555533 0%, #555555ff 100%);
 }
 
 /* red  */
 .cell.cell-on-1 {
-    background-color: #d1151d;
-    background: linear-gradient(135deg, #d1151d80 0%, #d1151dff 100%);
+    background-color: #e44a37;
 }
 
 /* orange  */
 .cell.cell-on-2 {
-    background-color: #ef691c;
-    background: linear-gradient(135deg, #ef691c80 0%, #ef691cff 100%);
+    background-color: #ff8021;
 }
 
 /* yellow  */
 .cell.cell-on-3 {
     background-color: #f4ba29;
-    background: linear-gradient(135deg, #f4ba2980 0%, #f4ba29ff 100%);
 }
 
 /* green  */
 .cell.cell-on-4 {
-    background-color: #66b520;
-    background: linear-gradient(135deg, #66b52080 0%, #66b520ff 100%);
+    background-color: #64ae1f;
 }
 
 /* blue  */
 .cell.cell-on-5 {
-    background-color: #379adc;
-    background: linear-gradient(135deg, #379adc80 0%, #379adcff 100%);
+    background-color: #1c4fb8;
 }
 
 /* indigo  */
 .cell.cell-on-6 {
-    background-color: #1c4fb8;
-    background: linear-gradient(135deg, #1c4fb880 0%, #1c4fb8ff 100%);
+    background-color: #379adc;
 }
 
 /* purple  */
 .cell.cell-on-7 {
     background-color: #822285;
-    background: linear-gradient(135deg, #82228580 0%, #822285ff 100%);
 }
 
 .cell.cell-on-1::before,
@@ -122,7 +105,7 @@ html, body {
     content: "";
     width: calc(4vmin - 1px);
     height: calc(4vmin - 1px);
-    border: 2px solid #555;
+    border: 2px solid #1d1e1b;
     box-sizing: border-box;
 }
 
@@ -136,7 +119,7 @@ html, body {
     content: "";
     width: calc(4vmin - 1px);
     height: calc(4vmin - 1px);
-    border: 2px dashed #555;
+    border: 2px dashed #1d1e1b;
     box-sizing: border-box;
 }
 

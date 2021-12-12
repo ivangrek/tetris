@@ -74,6 +74,12 @@
     const FallSound = new  Audio("assets/drop.mp3");
     const LineSound = new  Audio("assets/line.mp3");
 
+    StartSound.volume = 0.2;
+    EndSound.volume = 0.2;
+    RotateSound.volume = 0.2;
+    FallSound.volume = 0.2;
+    LineSound.volume = 0.2;
+
     let clearLine = 19;
 
     //------------------------------------
@@ -112,7 +118,6 @@
                     EndSound.pause();
                     EndSound.currentTime = 0;
 
-                    StartSound.volume = 0.2;
                     StartSound.play();
                 }
 
@@ -143,7 +148,6 @@
                 if(hasCollisions(figure) && figure.y < 0) {
                     state = State.Lose;
 
-                    EndSound.volume = 0.2;
                     EndSound.play();
 
                     return;
@@ -153,7 +157,11 @@
                     figure.y--;
                 }
 
-                if(InputContext.left) {
+                if(InputContext.leftPressed) {
+                    moveTimer = TimerContext.create(150);
+                }
+
+                if(InputContext.leftPressed || (InputContext.left && moveTimer.time())) {
                     figure.x--;
 
                     if(hasCollisions(figure)) {
@@ -161,7 +169,11 @@
                     }
                 }
 
-                if(InputContext.right) {
+                if(InputContext.rightPressed) {
+                    moveTimer = TimerContext.create(150);
+                }
+
+                if(InputContext.rightPressed || (InputContext.right && moveTimer.time())) {
                     figure.x++;
 
                     if(hasCollisions(figure)) {
@@ -169,18 +181,22 @@
                     }
                 }
 
-                if(InputContext.top) {
+                if(InputContext.upPressed) {
                     figure.rotate(Rotation.Right);
 
                     if(hasCollisions(figure)) {
                         figure.rotate(Rotation.Left);
                     } else {
-                        RotateSound.volume = 0.2;
                         RotateSound.play();
                     }
                 }
 
-                if(gameTimer.time() || InputContext.bottom) {
+                if(InputContext.downPressed) {
+                    this.downPressed = true;
+                    downTimer = TimerContext.create(50);
+                }
+
+                if(InputContext.downPressed || gameTimer.time() || (this.downPressed && InputContext.down && downTimer.time())) {
                     figure.y++;
 
                     if(hasCollisions(figure)) {
@@ -188,10 +204,11 @@
 
                         putFigure();
 
+                        this.downPressed = false;
+
                         FallSound.pause();
                         FallSound.currentTime = 0;
 
-                        FallSound.volume = 0.2;
                         FallSound.play();
 
                         score += 50;
@@ -203,7 +220,6 @@
 
                             state = State.Line;
 
-                            LineSound.volume = 0.2;
                             LineSound.play();
                         } else {
                             nextFigure();
@@ -273,7 +289,6 @@
                     EndSound.pause();
                     EndSound.currentTime = 0;
 
-                    StartSound.volume = 0.2;
                     StartSound.play();
                 }
 
@@ -357,37 +372,80 @@
         const state = {
             start: false,
             left: false,
+            leftPressed: false,
             right: false,
-            top: false,
-            bottom: false,
+            rightPressed: false,
+            up: false,
+            upPressed: false,
+            down: false,
+            downPressed: false,
 
             clear: function() {
-                this.start = false;
-                this.left = false;
-                this.right = false;
-                this.top = false;
-                this.bottom = false;
+                this.leftPressed = false;
+                this.rightPressed = false;
+                this.upPressed = false;
+                this.downPressed = false;
             }
         }
 
-        window.addEventListener("keydown", onKeydown, true);
+        window.addEventListener("keydown", onKeyDown, true);
+        window.addEventListener("keyup", onKeyUp, true);
 
-        function onKeydown(e) {
+        function onKeyDown(e) {
             switch (e.code) {
                 case "KeyE":
                     state.start = true;
                     break;
                 case "KeyA":
+                    if(!state.left) {
+                        state.leftPressed = true;
+                    }
+
                     state.left = true;
                     break;
                 case "KeyD":
+                    if(!state.right) {
+                        state.rightPressed = true;
+                    }
+
                     state.right = true;
                     break;
                 case "KeyW":
-                    state.top = true;
+                    if(!state.up) {
+                        state.upPressed = true;
+                    }
+
+                    state.up = true;
+
                     break;
                 case "KeyS":
-                    state.bottom = true;
+                    if(!state.down) {
+                        state.downPressed = true;
+                    }
+
+                    state.down = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        function onKeyUp(e) {
+            switch (e.code) {
+                case "KeyE":
+                    state.start = false;
+                    break;
+                case "KeyA":
+                    state.left = false;
+                    break;
+                case "KeyD":
+                    state.right = false;
+                    break;
+                case "KeyW":
+                    state.up = false;
+                    break;
+                case "KeyS":
+                    state.down = false;
                     break;
                 default:
                     break;
